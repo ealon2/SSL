@@ -1,0 +1,1 @@
+Programa desarrollado en lenguaje C que imprime "Hola mundo" en pantalla.
