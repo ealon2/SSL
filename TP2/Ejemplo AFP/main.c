@@ -1,4 +1,5 @@
 #include "funciones.h"
+#include <conio.h>
 
 int main()
 {
@@ -63,12 +64,18 @@ int main()
 
         // Si la pila queda vacía la cadena es ACEPTADA
         if(pilaVacia(p))
+        {
             printf("\nLA PILA QUEDÓ VACIA.\nPOR LO TANTO LA CADENA \"%s\" ES ACEPTADA.",cadenaSinEspacios);
-        
+            getch();
+        }
+                    
         else
+        {
             printf("\nERROR.\nLA CADENA ES RECHAZADA.");
+            getch();
+        }
 
         free(cadenaSinEspacios);
 
-    return 0;
+    return 0;    
 }
