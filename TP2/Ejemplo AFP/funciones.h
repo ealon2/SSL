@@ -7,6 +7,7 @@
 
 #define q0 0
 #define q1 1
+#define __ '_' // No hace nada, no lee nada
 
 // struct Nodo
 typedef struct nodo
