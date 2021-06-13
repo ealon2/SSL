@@ -18,10 +18,10 @@ void evaluar(TRANSICION* transicion)
     {
         columna = 0;
 
-        if((*transicion).estadoActual == q0) && (*transicion).cimaDePila == '$')
+        if((*transicion).estadoActual == q0 && (*transicion).cimaDePila == '$')
             fila = 0;
 
-        else if((*transicion).estadoActual == q0) && (*transicion).cimaDePila == 'R')
+        else if((*transicion).estadoActual == q0 && (*transicion).cimaDePila == 'R')
             fila = 1;
     }
 
@@ -30,10 +30,10 @@ void evaluar(TRANSICION* transicion)
     {
         columna = 1;
 
-        if((*transicion).estadoActual == q0) && (*transicion).cimaDePila == 'R')
+        if((*transicion).estadoActual == q0 && (*transicion).cimaDePila == 'R')
             fila = 1;
 
-        else if((*transicion).estadoActual == q1) && (*transicion).cimaDePila == 'R')
+        else if((*transicion).estadoActual == q1 && (*transicion).cimaDePila == 'R')
             fila = 2;
     }
 
