@@ -1,4 +1,4 @@
-#include "ejemploAFPfunciones.h"
+#include "funciones.h"
 
 int main()
 {
@@ -11,7 +11,7 @@ int main()
     iniciarPila(&p);
 
     // Solicitar al usuario el ingreso de una cadena
-    printf("\n Ingrese una cadena que...")
+    printf("\n Ingrese una cadena que...");
 
         // No guardar espacios en blanco
         while((c=getc(stdin)) != '\n')
@@ -63,10 +63,10 @@ int main()
 
         // Si la pila queda vacía la cadena es ACEPTADA
         if(pilaVacia(p))
-            printf("\nLA PILA QUEDÓ VACIA.\nPOR LO TANTO LA CADENA \"%s\" ES ACEPTADA.",cadenaSinEspacios)
+            printf("\nLA PILA QUEDÓ VACIA.\nPOR LO TANTO LA CADENA \"%s\" ES ACEPTADA.",cadenaSinEspacios);
         
         else
-            printf("\nERROR.\nLA CADENA ES RECHAZADA.")
+            printf("\nERROR.\nLA CADENA ES RECHAZADA.");
 
         free(cadenaSinEspacios);
 
