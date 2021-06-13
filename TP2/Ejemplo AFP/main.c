@@ -1,5 +1,4 @@
 #include "funciones.h"
-#include <conio.h>
 
 int main()
 {
@@ -76,10 +75,7 @@ int main()
             printf("\nLA PILA QUEDÓ VACIA.\nPOR LO TANTO LA CADENA \"%s\" ES ACEPTADA.",cadenaSinEspacios);
                     
         else
-        {
             printf("\nERROR.\nLA CADENA ES RECHAZADA.");
-            getch();
-        }
 
         printf("\n Quiere ingresar otra cadena? (responda SI o NO): ");
         scanf("%s",&respuesta);
