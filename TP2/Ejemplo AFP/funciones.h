@@ -47,5 +47,8 @@ int pilaVacia(Nodo* p);
 // Evaluar transiciones de la Tabla
 void evaluar(TRANSICION* transicion);
 
-// Mostrar movimientos de la Tabla
+// Imprimir movimientos de la Tabla
 void imprimirTransicion(TRANSICION transicion);
+
+// Preguntar al usuario si quiere evaluar otra cadena
+int respondioSI(char* respuesta);

@@ -121,3 +121,8 @@ void imprimirTransicion(TRANSICION transicion)
     else
         printf(" %s )", transicion.simbolosAAgregarEnLaPila);
 }
+
+int respondioSI(char* respuesta) // Devuelve 1 si la respuesta es SI, 0 si fue NO
+{
+    return (respuesta[0]=='S' && respuesta[1]=='I')? 1:0;
+}
