@@ -39,13 +39,16 @@ CONSTANTE_OCTAL 0{DIGITO_OCTAL}+
 {ESPACIO_EN_BLANCO}|{TABULACION}|{SALTO_DE_LINEA}    {;/*ignora los espacios en blanco, las tabulaciones y los saltos de línea*/}
 .                                   {;}
 %%
-int main()
+int main(int argc, char *argv[])
 {
+
+    if (argv[1] == NULL) return 1;
+
     /* abro archivo de reporte donde escribo tabla */
     FILE* reporte = fopen("reporte.txt","w+");
 
     /* archivo de lectura */
-    yyin = fopen("prueba.txt", "r+");
+    yyin = fopen(argv[1], "r+");
 
     /* invoco al analizador */
     yylex();

@@ -519,9 +519,9 @@ goto find_rule; \
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "programaFlex.l"
+#line 1 "main.l"
 #define INITIAL 0
-#line 5 "programaFlex.l"
+#line 5 "main.l"
 #include "funciones.h"
 /* Lista donde guardo tokens */
 NODO* lista=NULL;
@@ -681,7 +681,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 33 "programaFlex.l"
+#line 33 "main.l"
 
 #line 687 "lex.yy.c"
 
@@ -776,42 +776,42 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 34 "programaFlex.l"
+#line 34 "main.l"
 {insertarAlFinalDeLaLista(&lista,yylineno,palabraReservada,yytext,yyleng);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 35 "programaFlex.l"
+#line 35 "main.l"
 {insertarAlFinalDeLaLista(&lista,yylineno,identificador,yytext,yyleng);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 36 "programaFlex.l"
+#line 36 "main.l"
 {insertarAlFinalDeLaLista(&lista,yylineno,operadorOCaracterDePuntuacion,yytext,yyleng);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 37 "programaFlex.l"
+#line 37 "main.l"
 {insertarAlFinalDeLaLista(&lista,yylineno,literalCadena,yytext,yyleng);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 38 "programaFlex.l"
+#line 38 "main.l"
 {insertarAlFinalDeLaLista(&lista,yylineno,constanteOctal,yytext,yyleng);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 39 "programaFlex.l"
+#line 39 "main.l"
 {;/*ignora los espacios en blanco, las tabulaciones y los saltos de línea*/}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 40 "programaFlex.l"
+#line 40 "main.l"
 {;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 41 "programaFlex.l"
+#line 41 "main.l"
 ECHO;
 	YY_BREAK
 #line 818 "lex.yy.c"
@@ -1698,15 +1698,18 @@ int main()
 	return 0;
 	}
 #endif
-#line 41 "programaFlex.l"
+#line 41 "main.l"
 
-int main()
+int main(int argc, char *argv[])
 {
+
+    if (argv[1] == NULL) return 1;
+
     /* abro archivo de reporte donde escribo tabla */
     FILE* reporte = fopen("reporte.txt","w+");
 
     /* archivo de lectura */
-    yyin = fopen("prueba.txt", "r+");
+    yyin = fopen(argv[1], "r+");
 
     /* invoco al analizador */
     yylex();
