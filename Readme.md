@@ -1,8 +1,8 @@
 Este es mi repositorio para la cursada de Sintaxis y Semántica de Lenguajes.
 
-Fernando Gabriel Camino
-Legajo: 1381027
+Ezequiel Alonso Fiasche
+Legajo: 1628185
 
 Curso: K2052
-Equipo: 4
-Representante: Andrea Franco
+Equipo: 3 y 4 (de los que quedaron)
+Representante: 
