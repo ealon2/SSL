@@ -1,12 +1,10 @@
-%option noyywrap
-
 %{
     #include <stdlib.h>
     #include <stdio.h>
     #include <stdbool.h>
     #include <string.h>
 
-    #include "parser.h"
+    #include "main.tab.h"
 %}
 
 ESPACIO_EN_BLANCO   (" ")+
@@ -28,7 +26,7 @@ DIGITO_DECIMAL_NO_CERO      [1-9]
 CONSTANTE_ENTERA_DECIMAL    {DIGITO_DECIMAL_NO_CERO}{DIGITO_DECIMAL}*{SUFIJO_ENTERO}?
 
 DIGITO_OCTAL                [0-7]
-CONSTANTE_ENTERA_OCTAL      0{DIGITO_OCTAL}+{SUFIJO_ENTERO}?
+CONSTANTE_ENTERA_OCTAL      0{DIGITO_OCTAL}*{SUFIJO_ENTERO}?
 
 DIGITO_HEXADECIMAL          [0-9a-fA-F]
 CONSTANTE_ENTERA_HEXA       (0x|0X){DIGITO_HEXADECIMAL}+{SUFIJO_ENTERO}?
@@ -77,13 +75,13 @@ CONSTANTE_CARACTER  \'{CARACTER_C}\'
 
 {CONSTANTE_REAL}                    {;}
 
-{CONSTANTE_ENTERA_DECIMAL}          { yylval.ival = strtol(yytext, NULL, 10); return CONSTANTE_ENTERA_DECIMAL; }
+{CONSTANTE_ENTERA_DECIMAL}          { yylval.ival = strtol(yytext, NULL, 10); return CONSTANTE_DECIMAL; }
 
-{CONSTANTE_ENTERA_OCTAL}            { yylval.ival = strtol(yytext, NULL, 8); return CONSTANTE_ENTERA_OCTAL; }
+{CONSTANTE_ENTERA_OCTAL}            { yylval.ival = strtol(yytext, NULL, 8); return CONSTANTE_OCTAL; }
 
-{CONSTANTE_ENTERA_HEXA}             { yylval.ival = strtol(yytext, NULL, 16); return CONSTANTE_ENTERA_HEXA; }
+{CONSTANTE_ENTERA_HEXA}             { yylval.ival = strtol(yytext, NULL, 16); return CONSTANTE_HEXADECIMAL; }
 
-{CONSTANTE_CARACTER}                { yylval.idval = strdup(yytext); return CONSTANTE_CARACTER; }
+{CONSTANTE_CARACTER}                { yylval.cval = strdup(yytext); return CONSTANTE_CARACTER; }
 
 "auto"                              { return AUTO; }
 "break"                             { return BREAK; }
@@ -92,6 +90,7 @@ CONSTANTE_CARACTER  \'{CARACTER_C}\'
 "const"                             { return CONST; }
 "continue"                          { return CONTINUE; }
 "default"                           { return DEFAULT; }
+"define"                            { return DEFINE; }
 "do"                                { return DO; }
 "double"                            { return DOUBLE; }                            
 "else"                              { return ELSE; }
@@ -102,6 +101,7 @@ CONSTANTE_CARACTER  \'{CARACTER_C}\'
 "goto"                              { return GOTO; }
 "if"                                { return IF; }
 "int"                               { return INT; }
+"include"                           { return INCLUDE; }
 "long"                              { return LONG; }
 "register"                          { return REGISTER; }
 "return"                            { return RETURN; }
@@ -123,36 +123,38 @@ CONSTANTE_CARACTER  \'{CARACTER_C}\'
 "<="                                { return MENOR_IGUAL; }
 ">="                                { return MAYOR_IGUAL; }
 "++"                                { return MAS_MAS; }
-"--"                                { return MENOS_,MENOS; }
+"--"                                { return MENOS_MENOS; }
 "+="                                { return MAS_IGUAL; }
 "-="                                { return MENOS_IGUAL; }
 "*="                                { return POR_IGUAL; }
-"/="                                { return DIVIDIDO_IGUAL; }
-"%="                                { return PORCENTAJE_IGUAL; }
-"&="                                { return AMPERSAND_IGUAL; }
-"^="                                { return CIRCUNFLEJO_IGUAL; }
-"&&"                                { return AND; }
-"||"                                { return OR; }
+"/="                                { return DIVISION_IGUAL; }
+"%="                                { return MODULO_IGUAL; }
+"&="                                { return AND_IGUAL; }
+"|="                                { return OR_IGUAL; }
+"^="                                { return OR_EXCLUSIVO_IGUAL; }
+"&&"                                { return AND_LOGICO; }
+"||"                                { return OR_LOGICO; }
 "..."                               { return ELIPSIS; }
-"<<="                               { return MENOR_MENOR_IGUAL; }
-">>="                               { return MAYOR_MAYOR_IGUAL; }
+"<<"                                { return CORRIMIENTO_A_IZQUIERDA; }
+">>"                                { return CORRIMIENTO_A_DERECHA; }
+"<<="                               { return CORRIMIENTO_A_IZQUIERDA_IGUAL; }
+">>="                               { return CORRIMIENTO_A_DERECHA_IGUAL; }
 "\\"                                { return BARRA_INVERTIDA; }
-"["|"]"|"("|")"|"{"|"}"|"&"|"*"     { return yylex[0]; }
-"+"|"-"|"/"|"%"|"<"|">"|"^"|"|"     { return yylex[0]; }
-"~"|"!"|"="|"?"|":"|";"|","|"#"|"." { return yylex[0]; }
+"->"                                { return PUNTERO_FLECHA; }
+"["|"]"|"("|")"|"{"|"}"|"&"|"*"     { return yytext[0]; }
+"+"|"-"|"/"|"%"|"<"|">"|"^"|"|"     { return yytext[0]; }
+"~"|"!"|"="|"?"|":"|";"|","|"#"|"." { return yytext[0]; }
 
-{IDENTIFICADOR}                     { yylval.idval = strdup(yytext); return IDENTIFICADOR; }
+{IDENTIFICADOR}                     { yylval.cval = strdup(yytext); return IDENTIFICADOR; }
 
-{LITERAL_CADENA}                    { yylval.idval = strdup(yytext); return LITERAL_CADENA; }
+{LITERAL_CADENA}                    { yylval.cval = strdup(yytext); return LITERAL_CADENA; }
 
-{COMENTARIO_UNA_LINEA}              { yylval.idval = strdup(yytext); return COMENTARIO_UNA_LINEA; }
+{COMENTARIO_UNA_LINEA}              { yylval.cval = strdup(yytext); return COMENTARIO_UNA_LINEA; }
 
-{COMENTARIO_MULTI_LINEA}            { yylval.idval = strdup(yytext); return COMENTARIO_MULTI_LINEA; }
+{COMENTARIO_MULTI_LINEA}            { yylval.cval = strdup(yytext); return COMENTARIO_MULTI_LINEA; }
 
-{ESPACIO_EN_BLANCO_O_TABULACION}    { yylval.idval = strdup(yytext); return COMENTARIO_MULTI_LINEA; }
+{ESPACIO_EN_BLANCO_O_TABULACION}    { ; }
 
 %%
 
-int yywrap(void) {
-    return 1;
-}
+
